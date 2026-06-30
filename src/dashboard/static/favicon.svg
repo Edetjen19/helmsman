@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Helmsman">
+  <rect width="32" height="32" rx="4" fill="#1C4E5A"/>
+  <rect x="9" y="8" width="4" height="16" fill="#FFFFFF"/>
+  <rect x="19" y="8" width="4" height="16" fill="#FFFFFF"/>
+  <rect x="9" y="14" width="14" height="4" fill="#FFFFFF"/>
+</svg>

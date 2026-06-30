@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Helmsman, Superset remediation control plane</title>
+  <link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
+  <link rel="stylesheet" href="/static/app.css" />
+  <script src="/static/htmx.min.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="wordmark">HELMSMAN</span>
+      <span class="subtitle">Superset tech-debt to verified PRs, via Devin v3</span>
+    </div>
+    <div class="topbar-right">
+      <span class="chip-mode" title="The board shows real results from the last remediation run. A live run would re-run against the Devin API.">REAL RESULTS</span>
+      <a class="repo" href="https://github.com/{{ metrics.repo }}" target="_blank" rel="noreferrer">{{ metrics.repo }}</a>
+      <form method="post" action="/load-results" class="inline">
+        <button class="btn" type="submit" title="Reload the real results from the last run (data/real_results.json)">Load results</button>
+      </form>
+    </div>
+  </header>
+
+  <main>
+    <div id="fleet" hx-get="/partials/fleet" hx-trigger="every 2s" hx-swap="innerHTML">
+      {% include "fleet.html" %}
+    </div>
+  </main>
+
+  <footer class="foot">
+    Showing <strong>real results</strong> from the last remediation run: {{ metrics.merged }} merged, {{ metrics.awaiting }} at the human gate, <strong>{{ "%.1f"|format(metrics.acus_total) }} ACU measured</strong> on this org. The ${{ "%.2f"|format(metrics.acu_usd_rate) }}/ACU rate is a stated assumption. Each PR links out to GitHub, where a human reviews and merges; the dashboard never merges. A live run would re-run against the Devin API.
+  </footer>
+
+  <script>
+  /* Sortable fleet table, plain vanilla. Re-applies after each HTMX swap so the
+     2s refresh keeps the chosen order. Sorts raw values via data-sort. */
+  (function () {
+    var col = null, dir = 1; // dir: 1 asc, -1 desc
+    function val(td) {
+      if (!td) return "";
+      var d = td.getAttribute("data-sort");
+      if (d === null) return "";
+      var n = parseFloat(d);
+      return isNaN(n) ? d.toLowerCase() : n;
+    }
+    function marks(table) {
+      table.querySelectorAll("th.sortable").forEach(function (th) {
+        var active = th.getAttribute("data-col") === col;
+        th.classList.toggle("sort-active", active);
+        th.classList.toggle("sort-asc", active && dir === 1);
+      });
+    }
+    function apply() {
+      var table = document.querySelector("#fleet table");
+      if (!table || col === null) return;
+      var tb = table.tBodies[0];
+      if (!tb) return;
+      var rows = Array.prototype.slice.call(tb.rows).filter(function (r) {
+        return r.querySelector('td[data-col="' + col + '"]');
+      });
+      rows.sort(function (a, b) {
+        var av = val(a.querySelector('td[data-col="' + col + '"]'));
+        var bv = val(b.querySelector('td[data-col="' + col + '"]'));
+        if (av < bv) return -1 * dir;
+        if (av > bv) return 1 * dir;
+        return 0;
+      });
+      rows.forEach(function (r) { tb.appendChild(r); });
+      marks(table);
+    }
+    document.addEventListener("click", function (e) {
+      var th = e.target.closest && e.target.closest("th.sortable");
+      if (!th) return;
+      var c = th.getAttribute("data-col");
+      if (c === col) { dir = -dir; } else { col = c; dir = 1; }
+      apply();
+    });
+    document.body.addEventListener("htmx:afterSwap", function (e) {
+      if (e.target && e.target.id === "fleet") apply();
+    });
+  })();
+  </script>
+</body>
+</html>

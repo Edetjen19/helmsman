@@ -1,0 +1,11 @@
+.env
+.venv
+__pycache__/
+node_modules/
+*.db
+data/*.db
+# committed: the dashboard's real-results data source (everything else in data/ stays ignored)
+data/*.json
+!data/real_results.json
+.DS_Store
+data/*.db-*

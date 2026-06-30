@@ -1,0 +1,280 @@
+{
+  "generated_from": [
+    "data/m4.db (#5->PR#8)",
+    "data/m6_issue2.db (#2->PR#10)",
+    "data/m6_issue7.db (#7->PR#9)"
+  ],
+  "note": "Real results from the last remediation run; 3 PRs at the human gate, 0 merged, 0.0 ACU measured.",
+  "remediations": [
+    {
+      "issue_id": "I_kwDOTH2TL88AAAABG-4gvA",
+      "spec_hash": "27ae33fbf290ec84",
+      "issue_number": 5,
+      "issue_title": "apispec version cap blocks upgrade (raise cap + fix OpenAPI spec assertion)",
+      "issue_url": "https://github.com/Edetjen19/superset/issues/5",
+      "klass": "dependency-upgrade",
+      "fsm_state": "merged",
+      "pr_url": "https://github.com/Edetjen19/superset/pull/8",
+      "pr_number": 8,
+      "pr_state": "merged",
+      "heal_attempts": 2,
+      "labeled_at": "2026-06-28T21:11:24.118218+00:00",
+      "created_at": "2026-06-28T21:11:24.118218+00:00",
+      "updated_at": "2026-06-28T22:24:56.972137+00:00",
+      "sessions": [
+        {
+          "session_id": "33bdf4a6665040b7a2d111021d71949c",
+          "kind": "remediate",
+          "status": "running",
+          "status_detail": "waiting_for_user",
+          "acus_consumed": 0.0,
+          "pr_url": "https://github.com/Edetjen19/superset/pull/8",
+          "pr_state": "open",
+          "structured_output": "{\"remediated\": true, \"refused\": false, \"refusal_reason\": \"\", \"change_class\": \"\", \"root_cause\": \"apispec 6.7.0+ emits additionalProperties: false on all Marshmallow-backed OpenAPI schemas and additionalProperties: {} on nested Dict/object fields. Five test assertions across four files hardcoded the old schema shape without these keys.\", \"files_changed\": [\"requirements/base.in\", \"requirements/base.txt\", \"requirements/development.txt\", \"tests/integration_tests/base_api_tests.py\", \"tests/integration_tests/databases/api_tests.py\", \"tests/integration_tests/db_engine_specs/postgres_tests.py\", \"tests/unit_tests/db_engine_specs/test_databricks.py\", \"tests/unit_tests/databases/api_test.py\"], \"tests_added\": false, \"verification_ran\": \"\", \"pr_url\": \"https://github.com/Edetjen19/superset/pull/8\", \"residual_risk\": \"\", \"summary\": \"Raised apispec version cap from <6.7.0 to <7.0.0, recompiled lockfiles (6.6.1 \\u2192 6.10.0), and updated 5 test assertions across 4 files. All 35 CI checks pass.\", \"verdict\": \"pr_created\", \"issue_url\": \"https://github.com/Edetjen19/superset/issues/5\"}",
+          "session_url": "https://app.devin.ai/sessions/33bdf4a6665040b7a2d111021d71949c",
+          "is_active": 0,
+          "created_at": "2026-06-28T21:11:24.878791+00:00",
+          "updated_at": "2026-06-28T22:24:57.054260+00:00"
+        }
+      ],
+      "events": [
+        {
+          "type": "dispatched",
+          "detail": "max_acu=20 simulate=False",
+          "session_id": "33bdf4a6665040b7a2d111021d71949c",
+          "created_at": "2026-06-28T21:11:24.972728+00:00"
+        },
+        {
+          "type": "pr_opened",
+          "detail": "https://github.com/Edetjen19/superset/pull/8",
+          "session_id": "33bdf4a6665040b7a2d111021d71949c",
+          "created_at": "2026-06-28T21:22:58.207081+00:00"
+        },
+        {
+          "type": "ci_red",
+          "detail": "2 failing check(s): unit-tests-required, unit-tests (current)",
+          "session_id": "33bdf4a6665040b7a2d111021d71949c",
+          "created_at": "2026-06-28T22:04:52.532432+00:00"
+        },
+        {
+          "type": "self_heal",
+          "detail": "attempt 1",
+          "session_id": "33bdf4a6665040b7a2d111021d71949c",
+          "created_at": "2026-06-28T22:05:19.263599+00:00"
+        },
+        {
+          "type": "ci_red",
+          "detail": "2 failing check(s): unit-tests-required, unit-tests (current)",
+          "session_id": "33bdf4a6665040b7a2d111021d71949c",
+          "created_at": "2026-06-28T22:05:46.452322+00:00"
+        },
+        {
+          "type": "self_heal",
+          "detail": "attempt 2",
+          "session_id": "33bdf4a6665040b7a2d111021d71949c",
+          "created_at": "2026-06-28T22:06:13.029723+00:00"
+        },
+        {
+          "type": "verified_green",
+          "detail": "CI green + remediated verdict",
+          "session_id": "33bdf4a6665040b7a2d111021d71949c",
+          "created_at": "2026-06-28T22:24:57.033163+00:00"
+        }
+      ]
+    },
+    {
+      "issue_id": "I_kwDOTH2TL88AAAABG-4fhw",
+      "spec_hash": "f74ee105807e7374",
+      "issue_number": 2,
+      "issue_title": "datetime.utcnow() is deprecated (timezone-aware migration)",
+      "issue_url": "https://github.com/Edetjen19/superset/issues/2",
+      "klass": "deprecation-migration",
+      "fsm_state": "awaiting_merge",
+      "pr_url": "https://github.com/Edetjen19/superset/pull/10",
+      "pr_number": 10,
+      "pr_state": "open",
+      "heal_attempts": 0,
+      "labeled_at": "2026-06-29T01:24:14.893875+00:00",
+      "created_at": "2026-06-29T01:24:14.893875+00:00",
+      "updated_at": "2026-06-29T02:17:13.909822+00:00",
+      "sessions": [
+        {
+          "session_id": "f6b24cefa9bd4dbdb7e5f3b18341cf0d",
+          "kind": "remediate",
+          "status": "running",
+          "status_detail": "waiting_for_user",
+          "acus_consumed": 0.0,
+          "pr_url": "https://github.com/Edetjen19/superset/pull/10",
+          "pr_state": "open",
+          "structured_output": "{\"remediated\": true, \"refused\": false, \"refusal_reason\": \"\", \"change_class\": \"deprecated-api-migration\", \"root_cause\": \"Python's datetime.utcnow() is deprecated since 3.12. All 95 call sites across 6 production files and 10 test files used the naive-UTC pattern. Two test files (test_jinja_context.py, sql_lab/api_tests.py) also mocked datetime.utcnow which needed updating to datetime.now.\", \"files_changed\": [\"superset/utils/dates.py\", \"superset/utils/cache.py\", \"superset/daos/log.py\", \"superset/commands/logs/prune.py\", \"superset/commands/report/log_prune.py\", \"superset/commands/report/execute.py\", \"tests/unit_tests/dao/queries_test.py\", \"tests/unit_tests/commands/logs/prune_test.py\", \"tests/unit_tests/commands/report/execute_test.py\", \"tests/integration_tests/superset_test_custom_template_processors.py\", \"tests/integration_tests/reports/commands_tests.py\", \"tests/integration_tests/reports/commands/execute_dashboard_report_tests.py\", \"tests/integration_tests/queries/api_tests.py\", \"tests/integration_tests/charts/api_tests.py\", \"tests/integration_tests/test_jinja_context.py\", \"tests/integration_tests/sql_lab/api_tests.py\"], \"tests_added\": false, \"verification_ran\": \"ruff check (all rules), pre-commit run --all-files (mypy, ruff, pylint, formatting), CI: 36/36 checks green\", \"pr_url\": \"https://github.com/Edetjen19/superset/pull/10\", \"residual_risk\": \"Naive-UTC semantics preserved via .replace(tzinfo=None); no behavioral change. If any downstream code starts using timezone-aware DateTime columns, those sites would need revisiting.\"}",
+          "session_url": "https://app.devin.ai/sessions/f6b24cefa9bd4dbdb7e5f3b18341cf0d",
+          "is_active": 0,
+          "created_at": "2026-06-29T01:24:15.814933+00:00",
+          "updated_at": "2026-06-29T02:17:13.999082+00:00"
+        }
+      ],
+      "events": [
+        {
+          "type": "dispatched",
+          "detail": "max_acu=20 simulate=False",
+          "session_id": "f6b24cefa9bd4dbdb7e5f3b18341cf0d",
+          "created_at": "2026-06-29T01:24:15.888116+00:00"
+        },
+        {
+          "type": "pr_opened",
+          "detail": "https://github.com/Edetjen19/superset/pull/10",
+          "session_id": "f6b24cefa9bd4dbdb7e5f3b18341cf0d",
+          "created_at": "2026-06-29T01:35:33.848591+00:00"
+        },
+        {
+          "type": "verified_green",
+          "detail": "CI green + remediated verdict",
+          "session_id": "f6b24cefa9bd4dbdb7e5f3b18341cf0d",
+          "created_at": "2026-06-29T02:17:13.986154+00:00"
+        }
+      ]
+    },
+    {
+      "issue_id": "I_kwDOTH2TL88AAAABG-4hQw",
+      "spec_hash": "958fe011994e832d",
+      "issue_number": 7,
+      "issue_title": "Frontend lint graduation: import/no-duplicates warn -> error",
+      "issue_url": "https://github.com/Edetjen19/superset/issues/7",
+      "klass": "lint-graduation",
+      "fsm_state": "awaiting_merge",
+      "pr_url": "https://github.com/Edetjen19/superset/pull/9",
+      "pr_number": 9,
+      "pr_state": "open",
+      "heal_attempts": 0,
+      "labeled_at": "2026-06-29T01:24:18.399330+00:00",
+      "created_at": "2026-06-29T01:24:18.399330+00:00",
+      "updated_at": "2026-06-29T02:16:57.169202+00:00",
+      "sessions": [
+        {
+          "session_id": "8812addc7b66488497e1fbb90e3c7e89",
+          "kind": "remediate",
+          "status": "running",
+          "status_detail": "waiting_for_user",
+          "acus_consumed": 0.0,
+          "pr_url": "https://github.com/Edetjen19/superset/pull/9",
+          "pr_state": "open",
+          "structured_output": "{\"remediated\": true, \"refused\": false, \"refusal_reason\": \"\", \"change_class\": \"lint-graduation\", \"root_cause\": \"The oxlint import/no-duplicates rule was set to 'warn' instead of 'error', allowing 31 frontend files to contain duplicate import statements from the same module without failing lint.\", \"files_changed\": [\"superset-frontend/oxlint.json\", \"superset-frontend/packages/superset-ui-core/src/chart/components/Matrixify/MatrixifyGridRenderer.test.tsx\", \"superset-frontend/packages/superset-ui-core/src/chart/stories/ChartDataProvider.stories.tsx\", \"superset-frontend/packages/superset-ui-core/src/components/Button/Button.test.tsx\", \"superset-frontend/packages/superset-ui-core/test/query/types/PostProcessing.test.ts\", \"superset-frontend/playwright/generators/docs/docs-screenshots.spec.ts\", \"superset-frontend/plugins/plugin-chart-echarts/test/Timeseries/transformProps.test.ts\", \"superset-frontend/plugins/plugin-chart-echarts/test/Timeseries/transformers.test.ts\", \"superset-frontend/plugins/plugin-chart-pivot-table/test/react-pivottable/tableRenders.test.tsx\", \"superset-frontend/plugins/plugin-chart-point-cluster-map/test/ScatterPlotOverlay.test.tsx\", \"superset-frontend/plugins/plugin-chart-table/src/TableChart.tsx\", \"superset-frontend/plugins/plugin-chart-word-cloud/src/plugin/controls/ColorSchemeControl.tsx\", \"superset-frontend/plugins/plugin-chart-word-cloud/src/plugin/controls/RotationControl.tsx\", \"superset-frontend/plugins/preset-chart-deckgl/src/layers/Arc/stories/Arc.stories.tsx\", \"superset-frontend/plugins/preset-chart-deckgl/src/layers/Geojson/transformProps.ts\", \"superset-frontend/src/SqlLab/components/ResultSet/index.tsx\", \"superset-frontend/src/components/ErrorMessage/DatabaseErrorMessage.tsx\", \"superset-frontend/src/components/ErrorMessage/ParameterErrorMessage.tsx\", \"superset-frontend/src/components/ErrorMessage/TimeoutErrorMessage.tsx\", \"superset-frontend/src/components/PanelToolbar/index.tsx\", \"superset-frontend/src/dashboard/components/Dashboard.tsx\", \"superset-frontend/src/explore/components/ExploreChartHeader/index.tsx\", \"superset-frontend/src/explore/components/ExploreChartHeader/useExploreMetadataBar.tsx\", \"superset-frontend/src/explore/components/controls/DndColumnSelectControl/DndColumnMetricSelect.tsx\", \"superset-frontend/src/explore/components/controls/DndColumnSelectControl/DndColumnSelect.tsx\", \"superset-frontend/src/explore/components/controls/DndColumnSelectControl/DndMetricSelect.tsx\", \"superset-frontend/src/explore/components/useExploreAdditionalActionsMenu/index.tsx\", \"superset-frontend/src/filters/components/Select/SelectFilterPlugin.test.tsx\", \"superset-frontend/src/filters/components/Select/SelectFilterPlugin.tsx\", \"superset-frontend/src/filters/components/TimeGrain/TimeGrainFilterPlugin.tsx\", \"superset-frontend/src/pages/ChartList/index.tsx\", \"superset-frontend/src/views/menu.tsx\"], \"tests_added\": false, \"verification_ran\": \"npm run lint (oxlint --quiet) exits 0 with no import/no-duplicates errors; CI 41/41 checks green\", \"pr_url\": \"https://github.com/Edetjen19/superset/pull/9\", \"residual_risk\": \"None - purely mechanical import merging with no logic changes.\"}",
+          "session_url": "https://app.devin.ai/sessions/8812addc7b66488497e1fbb90e3c7e89",
+          "is_active": 0,
+          "created_at": "2026-06-29T01:24:19.155354+00:00",
+          "updated_at": "2026-06-29T02:16:57.256597+00:00"
+        }
+      ],
+      "events": [
+        {
+          "type": "dispatched",
+          "detail": "max_acu=10 simulate=False",
+          "session_id": "8812addc7b66488497e1fbb90e3c7e89",
+          "created_at": "2026-06-29T01:24:19.253917+00:00"
+        },
+        {
+          "type": "pr_opened",
+          "detail": "https://github.com/Edetjen19/superset/pull/9",
+          "session_id": "8812addc7b66488497e1fbb90e3c7e89",
+          "created_at": "2026-06-29T01:31:40.757317+00:00"
+        },
+        {
+          "type": "verified_green",
+          "detail": "CI green + remediated verdict",
+          "session_id": "8812addc7b66488497e1fbb90e3c7e89",
+          "created_at": "2026-06-29T02:16:57.243646+00:00"
+        }
+      ]
+    },
+    {
+      "issue_id": "gh-3",
+      "spec_hash": "backlog-3",
+      "issue_number": 3,
+      "issue_title": "datetime.utcfromtimestamp() is deprecated",
+      "issue_url": "https://github.com/Edetjen19/superset/issues/3",
+      "klass": "deprecation-migration",
+      "fsm_state": "open",
+      "pr_url": null,
+      "pr_number": null,
+      "pr_state": null,
+      "heal_attempts": 0,
+      "note": "",
+      "sessions": [],
+      "events": []
+    },
+    {
+      "issue_id": "gh-4",
+      "spec_hash": "backlog-4",
+      "issue_number": 4,
+      "issue_title": "SQLAlchemy 1.4 legacy Query.get() in production code",
+      "issue_url": "https://github.com/Edetjen19/superset/issues/4",
+      "klass": "deprecation-migration",
+      "fsm_state": "open",
+      "pr_url": null,
+      "pr_number": null,
+      "pr_state": null,
+      "heal_attempts": 0,
+      "note": "",
+      "sessions": [],
+      "events": []
+    },
+    {
+      "issue_id": "gh-6",
+      "spec_hash": "backlog-6",
+      "issue_number": 6,
+      "issue_title": "EOL dependency pins (pandas / numpy / Flask)",
+      "issue_url": "https://github.com/Edetjen19/superset/issues/6",
+      "klass": "dependency-upgrade",
+      "fsm_state": "deferred",
+      "pr_url": null,
+      "pr_number": null,
+      "pr_state": null,
+      "heal_attempts": 0,
+      "note": "deferred: high-risk EOL bump (not auto-remediated)",
+      "sessions": [],
+      "events": []
+    }
+  ],
+  "metric_snapshots": [
+    {
+      "ts": "2026-06-28T21:11:24",
+      "open_count": 6,
+      "merged_count": 0,
+      "in_flight": 0,
+      "failed_count": 0,
+      "acus_total": 0.0
+    },
+    {
+      "ts": "2026-06-28T21:11:24",
+      "open_count": 5,
+      "merged_count": 0,
+      "in_flight": 0,
+      "failed_count": 0,
+      "acus_total": 0.0
+    },
+    {
+      "ts": "2026-06-28T21:11:24",
+      "open_count": 4,
+      "merged_count": 0,
+      "in_flight": 0,
+      "failed_count": 0,
+      "acus_total": 0.0
+    },
+    {
+      "ts": "2026-06-28T21:11:24",
+      "open_count": 3,
+      "merged_count": 0,
+      "in_flight": 0,
+      "failed_count": 0,
+      "acus_total": 0.0
+    },
+    {
+      "ts": "2026-06-28T21:11:24",
+      "open_count": 3,
+      "merged_count": 1,
+      "in_flight": 0,
+      "failed_count": 0,
+      "acus_total": 0.0
+    }
+  ]
+}

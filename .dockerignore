@@ -1,0 +1,15 @@
+.git
+.venv
+__pycache__/
+**/__pycache__/
+*.pyc
+data/*.db
+data/*.db-*
+data/*.json
+!data/real_results.json
+.env
+.env.*
+!.env.example
+node_modules/
+.DS_Store
+.pytest_cache/

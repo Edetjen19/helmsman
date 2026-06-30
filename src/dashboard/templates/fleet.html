@@ -1,0 +1,111 @@
+{% set m = metrics %}
+<section class="kpi">
+
+  <div class="card">
+    <div class="card-head"><span class="eyebrow">Backlog burn-down</span><span class="card-note">{{ m.resolved }}/{{ m.total }} remediated</span></div>
+    <div class="spark">
+      {% if m.spark.has_data %}
+      <svg viewBox="0 0 {{ m.spark.width }} {{ m.spark.height }}" preserveAspectRatio="xMinYMid meet">
+        <line class="baseline" x1="2" y1="{{ m.spark.baseline }}" x2="318" y2="{{ m.spark.baseline }}" />
+        <polyline class="line line-open" points="{{ m.spark.open }}" />
+        <polyline class="line line-merged" points="{{ m.spark.merged }}" />
+      </svg>
+      {% else %}<div class="spark-empty">awaiting data</div>{% endif %}
+    </div>
+    <div class="legend"><span><i class="l-merged"></i>merged</span><span><i class="l-open"></i>open</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><span class="eyebrow">Outcomes</span><span class="card-note">{{ m.resolved }}/{{ m.total }} remediated</span></div>
+    <div class="hero">{{ m.merged }}<span class="unit">merged</span></div>
+    <div class="substats">
+      <div><span>at gate</span><b class="warn">{{ m.awaiting }}</b></div>
+      <div><span>open</span><b>{{ m.by_state.get('open', 0) }}</b></div>
+      <div><span>in-flight</span><b>{{ m.in_flight }}</b></div>
+      <div><span>needs human</span><b class="bad">{{ m.needs_human }}</b></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><span class="eyebrow">Cost &middot; measured ACU</span></div>
+    <div class="hero">{{ "%.1f"|format(m.acus_total) }}<span class="unit">ACU</span></div>
+    <div class="gauge"><div class="gauge-fill {{ 'bad' if m.budget_pct >= 90 else 'warn' if m.budget_pct >= 66 else '' }}" style="width: {{ m.budget_pct }}%"></div></div>
+    <div class="card-note">{{ "%.1f"|format(m.acus_total) }} / {{ "%.0f"|format(m.global_acu_budget) }} ACU &middot; ${{ "%.2f"|format(m.usd_per_pr) }}/PR</div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><span class="eyebrow">Flow</span><span class="card-note">self-heal {{ m.heal_rate if m.heal_rate is not none else "-" }}%</span></div>
+    <div class="hero">{{ m.prs_opened }}<span class="unit">PRs opened</span></div>
+    <div class="substats">
+      <div><span>median MTTR</span><b>{{ m.mttr_human }}</b></div>
+      <div><span>heal attempts</span><b class="warn">{{ m.heal_attempts }}</b></div>
+      <div><span>deferred</span><b>{{ m.by_state.get('deferred', 0) }}</b></div>
+    </div>
+  </div>
+
+</section>
+
+<section class="board">
+  <div class="board-head"><h2>Fleet</h2><span class="flow">issue &rarr; session &rarr; PR &rarr; CI &rarr; gate</span></div>
+  <table>
+    <thead>
+      <tr>
+        <th class="sortable" data-col="issue">Issue<span class="caret"></span></th>
+        <th class="sortable" data-col="class">Class<span class="caret"></span></th>
+        <th class="sortable" data-col="state">State<span class="caret"></span></th>
+        <th>Session</th>
+        <th>PR</th>
+        <th>CI / detail</th>
+        <th class="num sortable" data-col="acu">ACU<span class="caret"></span></th>
+        <th class="num sortable" data-col="heal">Heal<span class="caret"></span></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in rows %}
+      <tr>
+        <td data-col="issue" data-sort="{{ r.issue_number }}">
+          {% if r.issue_url %}<a class="issue-num" href="{{ r.issue_url }}" target="_blank" rel="noreferrer">#{{ r.issue_number }}</a>{% else %}<span class="issue-num">#{{ r.issue_number }}</span>{% endif %}{% if r.state == "merged" %} <span class="tag">closed</span>{% endif %}
+          <span class="issue-title">{{ r.issue_title }}</span>
+        </td>
+        <td data-col="class" data-sort="{{ r.klass }}"><span class="tag">{{ r.klass }}</span></td>
+        <td data-col="state" data-sort="{{ r.state }}"><span class="chip chip-{{ r.tone }}">{{ r.state }}</span></td>
+        <td>{% if r.session_url %}<a class="sid" href="{{ r.session_url }}" target="_blank" rel="noreferrer">{{ r.session_id }}</a>{% else %}<span class="dash">&middot;</span>{% endif %}</td>
+        <td>{% if r.pr_url %}<a href="{{ r.pr_url }}" target="_blank" rel="noreferrer">#{{ r.pr_number }}</a>{% else %}<span class="dash">&middot;</span>{% endif %}</td>
+        <td class="detail">
+          {% if r.note %}{{ r.note }}
+          {% elif r.refusal_reason %}{{ r.refusal_reason }}
+          {% elif r.last_error %}<span class="detail warn">{{ r.last_error }}</span>
+          {% elif r.verdict and r.verdict.root_cause %}{{ r.verdict.root_cause }}
+          {% elif r.session_status %}<span class="tag">{{ r.session_status }}</span>
+          {% else %}<span class="dash">&middot;</span>{% endif %}
+        </td>
+        <td class="num" data-col="acu" data-sort="{{ r.acus }}">{{ "%.2f"|format(r.acus) }}</td>
+        <td class="num" data-col="heal" data-sort="{{ r.heal_attempts }}">{{ r.heal_attempts }}</td>
+        <td>
+          {% if r.state == "awaiting_merge" and r.pr_url %}
+          <a class="btn-approve" href="{{ r.pr_url }}" target="_blank" rel="noreferrer" title="Review and merge PR #{{ r.pr_number }} on GitHub">Review PR &rarr;</a>
+          {% elif r.state == "merged" %}<span class="merged-mark"><svg class="ico-check" width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6.4 L4.8 9.2 L10 3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>merged</span>{% endif %}
+        </td>
+      </tr>
+      {% else %}
+      <tr><td colspan="9" style="text-align:center;color:var(--muted);padding:26px;">No results loaded. Click <b>Load results</b> to show the last run.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+<section class="activity">
+  <h2>Activity</h2>
+  <ul class="ledger">
+    {% for e in events %}
+    <li>
+      <span class="ev-type {{ e.role }}">{{ e.type }}{% if e.count > 1 %} <span class="x">&times;{{ e.count }}</span>{% endif %}</span>
+      <span class="ev-detail">{{ e.detail }}</span>
+      <span class="ev-time">{{ e.time }}</span>
+    </li>
+    {% else %}
+    <li><span class="ev-detail">No activity yet.</span></li>
+    {% endfor %}
+  </ul>
+</section>
